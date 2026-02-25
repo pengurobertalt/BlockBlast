@@ -69,6 +69,21 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var warningBanner = document.querySelector("#unity-warning");
 
+      // make sure pointer coordinates line up with what Unity expects by
+      // keeping the canvas size in sync with the DOM size and devicePixelRatio
+      function resizeCanvas() {
+        // use the container size so that CSS scaling is taken into account
+        var w = container.clientWidth;
+        var h = container.clientHeight;
+        canvas.width = w * window.devicePixelRatio;
+        canvas.height = h * window.devicePixelRatio;
+      }
+      // prevent the browser from interpreting touch gestures as scrolling/zooming
+      canvas.style.touchAction = 'none';
+      window.addEventListener('resize', resizeCanvas);
+      // initial sizing before Unity loads
+      resizeCanvas();
+
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
       // If type=='warning', a yellow highlight color is used.
